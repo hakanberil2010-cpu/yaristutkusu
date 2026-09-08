@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>YarışTutkusu — At Yarışları Topluluğu</title>
+<meta name="description" content="At yarışı yazıları, analizler ve üyelerin tahminlerini paylaştığı topluluk sitesi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06121a;--panel:#0b1c27;--panel2:#102735;--gold:#e8b650;--gold2:#f4ce78;--text:#f7f3e9;--muted:#9eabb2;--line:#213945}
+*{box-sizing:border-box} body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif}
+a{text-decoration:none;color:inherit}.container{width:min(1180px,92%);margin:auto}
+header{position:sticky;top:0;z-index:20;background:rgba(4,14,21,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:.4px}.horse{font-size:35px}.brand span{display:block}.brand small{display:block;font-size:9px;letter-spacing:3px;color:var(--muted)}
+nav{display:flex;gap:25px;color:#d7dadd;font-size:14px}nav a:hover{color:var(--gold2)}
+.actions{display:flex;gap:10px}.btn{border:1px solid #bfc5c8;background:transparent;color:white;border-radius:7px;padding:12px 20px;font-weight:700;cursor:pointer}.btn.gold{background:var(--gold);border-color:var(--gold);color:#101820}
+.hero{min-height:540px;display:grid;align-items:center;background:linear-gradient(90deg,rgba(3,14,21,.98) 0%,rgba(3,14,21,.8) 35%,rgba(3,14,21,.12) 75%),url('/hero-reference.png') center/cover}
+.hero-copy{max-width:650px;padding:80px 0}.eyebrow{color:var(--gold2);letter-spacing:3px;font-size:13px;font-weight:800}.hero h1{font-family:"Playfair Display",serif;font-size:clamp(42px,6vw,70px);line-height:1.03;margin:15px 0}.hero h1 em{color:var(--gold);font-style:normal}.hero p{font-size:17px;line-height:1.7;color:#d1d6d8;max-width:590px}.hero .btn{margin-right:10px;margin-top:12px}
+.features{border-block:1px solid var(--line);background:#081923}.features-grid{display:grid;grid-template-columns:repeat(4,1fr)}.feature{padding:30px 18px;text-align:center;border-right:1px solid var(--line)}.feature:last-child{border:0}.icon{font-size:28px;color:var(--gold);margin-bottom:10px}.feature h3{margin:5px 0 8px}.feature p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}
+section{padding:58px 0}.section-head{display:flex;justify-content:space-between;align-items:end;margin-bottom:22px}.section-head h2{font-family:"Playfair Display";font-size:32px;margin:0}.section-head a{color:var(--gold2);font-size:13px}
+.content-grid{display:grid;grid-template-columns:2fr 1fr;gap:28px}.articles{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}.card{background:var(--panel);border:1px solid var(--line);border-radius:9px;overflow:hidden}.card-img{height:190px;background:linear-gradient(135deg,#1d3946,#0a171f);display:grid;place-items:center;font-size:60px}.card.big .card-img{height:270px}.card-body{padding:18px}.tag{display:inline-block;background:var(--gold);color:#101820;border-radius:4px;padding:5px 8px;font-size:10px;font-weight:800}.card h3{font-family:"Playfair Display";font-size:24px;margin:10px 0}.card p{color:var(--muted);line-height:1.6;font-size:13px}.mini-list{display:grid;gap:12px}.mini{display:grid;grid-template-columns:100px 1fr;gap:12px;padding-bottom:12px;border-bottom:1px solid var(--line)}.mini .card-img{height:82px;font-size:32px}.mini h4{margin:3px 0;font-size:14px}.mini p{margin:0;color:var(--muted);font-size:12px}
+.predictions{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.prediction{padding:18px;background:var(--panel);border:1px solid var(--line);border-radius:9px}.user{color:var(--gold2);font-weight:800;font-size:13px}.prediction h3{margin:10px 0 6px}.prediction p{color:#bec7cb;font-size:13px;line-height:1.55}.meta{color:#77868e;font-size:11px}
+.cta{background:linear-gradient(90deg,rgba(7,21,29,.88),rgba(7,21,29,.3)),url('/hero-reference.png') center/cover;border-block:1px solid var(--line)}.cta-box{display:flex;justify-content:space-between;align-items:center;gap:25px}.cta h2{font-family:"Playfair Display";font-size:35px;margin:0 0 7px}.cta p{color:#ccd1d2;margin:0}
+footer{padding:38px 0;color:#87939a;border-top:1px solid var(--line)}.footer-grid{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}.footer-brand{color:var(--gold2);font-weight:800}.footer-links{display:flex;gap:20px;font-size:13px}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.75);display:none;place-items:center;z-index:50;padding:20px}.modal.open{display:grid}.modal-box{width:min(460px,100%);background:#0b1c27;border:1px solid var(--line);border-radius:12px;padding:28px;position:relative}.close{position:absolute;right:15px;top:10px;background:none;border:0;color:white;font-size:25px;cursor:pointer}.tabs{display:flex;gap:8px;margin-bottom:18px}.tab{flex:1;padding:10px;border:1px solid var(--line);background:#07151d;color:#b7c0c4;border-radius:6px;cursor:pointer}.tab.active{background:var(--gold);color:#101820}.field{display:grid;gap:6px;margin:12px 0}.field label{font-size:12px;color:#aeb9bd}.field input,.field textarea{background:#07151d;border:1px solid var(--line);color:white;border-radius:6px;padding:12px;outline:none}.field textarea{min-height:130px;resize:vertical}.form-msg{font-size:12px;color:#f0a9a9;min-height:18px}.user-menu{display:none;align-items:center;gap:10px}.user-menu.show{display:flex}.user-pill{color:var(--gold2);font-weight:700;font-size:13px}
+@media(max-width:850px){nav{display:none}.features-grid{grid-template-columns:repeat(2,1fr)}.feature:nth-child(2){border-right:0}.content-grid{grid-template-columns:1fr}.articles{grid-template-columns:1fr}.predictions{grid-template-columns:1fr}.hero{min-height:600px}.hero-copy{padding:55px 0}.cta-box{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<header><div class="container nav">
+<a class="brand" href="#"><div class="horse">♞</div><div><span>YARIŞTUTKUSU</span><small>AT YARIŞLARI SEVDAMIZ</small></div></a>
+<nav><a href="#anasayfa">Ana Sayfa</a><a href="#yazilar">Yazılar</a><a href="#tahminler">Tahminler</a><a href="#uyeler">Üyeler</a><a href="#hakkimizda">Hakkımızda</a></nav>
+<div class="actions"><button class="btn" id="loginBtn">Giriş Yap</button><button class="btn gold" id="registerBtn">Üye Ol</button><div class="user-menu" id="userMenu"><span class="user-pill" id="userName"></span><button class="btn" id="logoutBtn">Çıkış</button></div></div>
+</div></header>
+
+<main id="anasayfa">
+<section class="hero"><div class="container"><div class="hero-copy">
+<div class="eyebrow">YARIŞSEVERLERİN BULUŞMA NOKTASI</div>
+<h1>At yarışları sadece bir oyun değil,<br><em>bir tutkudur.</em></h1>
+<p>Bilgi, tecrübe ve tahminlerin paylaşıldığı YarışTutkusu'na hoş geldin. Yarış dünyasını birlikte konuşalım, kendi görüşünü toplulukla paylaş.</p>
+<button class="btn gold" onclick="openModal('register')">♟ Üye Ol</button><button class="btn" onclick="openModal('login')">Giriş Yap</button>
+</div></div></section>
+
+<div class="features"><div class="container features-grid">
+<div class="feature"><div class="icon">▤</div><h3>Güncel Yazılar</h3><p>At yarışı dünyasından haberler, bilgiler ve analizler.</p></div>
+<div class="feature"><div class="icon">♙</div><h3>Üye Topluluğu</h3><p>Yarışseverlerle tanış, fikir alışverişi yap.</p></div>
+<div class="feature"><div class="icon">▥</div><h3>Tahmin Paylaş</h3><p>Kendi tahminlerini paylaş, diğer üyelerin görüşlerini oku.</p></div>
+<div class="feature"><div class="icon">♜</div><h3>Yarış Kültürü</h3><p>At yarışlarına dair içerikleri tek çatı altında keşfet.</p></div>
+</div></div>
+
+<section id="yazilar"><div class="container"><div class="section-head"><h2>Güncel Yazılar</h2><a href="#">Tüm Yazılar →</a></div>
+<div class="content-grid"><div class="articles">
+<article class="card big"><div class="card-img">🏇</div><div class="card-body"><span class="tag">ANALİZ</span><h3>Şampiyonların İzinde: Türk Atçılığının Gurur Tablosu</h3><p>Türk atçılığının son yıllardaki yükselişi, unutulmaz şampiyonlar ve geleceğe dair notlar.</p></div></article>
+<div class="mini-list">
+<article class="card mini"><div class="card-img">🏇</div><div><span class="tag">HABER</span><h4>Veliefendi'de Heyecan Dolu Gün</h4><p>4 Eylül 2026</p></div></article>
+<article class="card mini"><div class="card-img">🐎</div><div><span class="tag">BİLGİ</span><h4>At Seçiminde Nelere Dikkat Edilmeli?</h4><p>2 Eylül 2026</p></div></article>
+<article class="card mini"><div class="card-img">🏇</div><div><span class="tag">RÖPORTAJ</span><h4>Usta Jokey Anlatıyor: Atla Bir Bütünsün</h4><p>31 Ağustos 2026</p></div></article>
+</div></div>
+<aside class="card" id="uyeler"><div class="card-body"><div class="section-head"><h2 style="font-size:23px">Öne Çıkan Üyeler</h2><a href="#">Tüm Üyeler →</a></div>
+<div class="mini-list">
+<div class="mini"><div class="card-img">👤</div><div><h4>Yarışkolik 👑</h4><p>132 tahmin · 1.2K takipçi</p></div></div>
+<div class="mini"><div class="card-img">👤</div><div><h4>ŞanlıTay</h4><p>98 tahmin · 860 takipçi</p></div></div>
+<div class="mini"><div class="card-img">👤</div><div><h4>AnadoluAtı</h4><p>76 tahmin · 540 takipçi</p></div></div>
+<div class="mini"><div class="card-img">👤</div><div><h4>SonDüzlük</h4><p>64 tahmin · 420 takipçi</p></div></div>
+</div></div></aside></div></div></section>
+
+<section id="tahminler" style="padding-top:10px"><div class="container"><div class="section-head"><h2>Son Tahminler</h2><a href="#tahminler">Tüm Tahminler →</a></div><div class="predictions" id="predictionList"></div></div></section>
+
+<section class="cta"><div class="container cta-box"><div><h2>Her koşu, yeni bir hikâyedir.</h2><p>Sen de yarışsever topluluğuna katıl, düşüncelerini paylaş.</p></div><button class="btn gold" onclick="openModal('register')">Hemen Üye Ol</button></div></section>
+</main>
+
+<footer id="hakkimizda"><div class="container footer-grid"><div><div class="footer-brand">♞ YARIŞTUTKUSU</div><small>AT YARIŞLARI SEVDAMIZ</small></div><div class="footer-links"><a href="#anasayfa">Ana Sayfa</a><a href="#yazilar">Yazılar</a><a href="#tahminler">Tahminler</a><a href="#">Gizlilik</a></div><div>© 2026 YarışTutkusu</div></div></footer>
+
+<div class="modal" id="authModal"><div class="modal-box"><button class="close" onclick="closeModal()">×</button><div class="tabs"><button class="tab active" id="tabLogin" onclick="switchAuth('login')">Giriş Yap</button><button class="tab" id="tabRegister" onclick="switchAuth('register')">Üye Ol</button></div>
+<form id="authForm"><div id="registerFields"></div><div class="field"><label>E-posta</label><input id="email" type="email" required></div><div class="field"><label>Şifre</label><input id="password" type="password" minlength="6" required></div><div class="form-msg" id="authMsg"></div><button class="btn gold" style="width:100%" id="authSubmit">Giriş Yap</button></form></div></div>
+
+<div class="modal" id="predictionModal"><div class="modal-box"><button class="close" onclick="document.getElementById('predictionModal').classList.remove('open')">×</button><h2>Tahminini Paylaş</h2><form id="predictionForm"><div class="field"><label>Başlık</label><input id="pTitle" required placeholder="Bugünkü dikkat çeken at..."></div><div class="field"><label>At / Koşu</label><input id="pHorse" placeholder="Örn. 5 numara"></div><div class="field"><label>Tahmin ve gerekçen</label><textarea id="pContent" required placeholder="Form, pist, mesafe, jokey vb. görüşlerini yaz..."></textarea></div><div class="form-msg" id="predictionMsg"></div><button class="btn gold" style="width:100%">Paylaş</button></form></div></div>
+
+<script>
+let authMode="login";
+const tokenKey="yt_token";
+function token(){return localStorage.getItem(tokenKey)}
+function openModal(mode){document.getElementById("authModal").classList.add("open");switchAuth(mode)}
+function closeModal(){document.getElementById("authModal").classList.remove("open")}
+function switchAuth(mode){authMode=mode;document.getElementById("tabLogin").classList.toggle("active",mode==="login");document.getElementById("tabRegister").classList.toggle("active",mode==="register");document.getElementById("authSubmit").textContent=mode==="login"?"Giriş Yap":"Kayıt Ol";document.getElementById("registerFields").innerHTML=mode==="register"?'<div class="field"><label>Kullanıcı adı</label><input id="username" required minlength="3"></div>':"";document.getElementById("authMsg").textContent=""}
+async function api(url,opts={}){const headers={"Content-Type":"application/json",...(opts.headers||{})};if(token())headers.Authorization="Bearer "+token();const r=await fetch(url,{...opts,headers});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||"Bir hata oluştu");return d}
+document.getElementById("authForm").addEventListener("submit",async e=>{e.preventDefault();const msg=document.getElementById("authMsg");msg.textContent="";try{let body={email:email.value,password:password.value};if(authMode==="register")body={username:username.value,...body};const d=await api("/api/"+(authMode==="login"?"login":"register"),{method:"POST",body:JSON.stringify(body)});localStorage.setItem(tokenKey,d.token);closeModal();updateUser();}catch(err){msg.textContent=err.message}})
+document.getElementById("logoutBtn").onclick=()=>{localStorage.removeItem(tokenKey);updateUser()}
+async function updateUser(){const logged=!!token();document.getElementById("loginBtn").style.display=logged?"none":"";document.getElementById("registerBtn").style.display=logged?"none":"";document.getElementById("userMenu").classList.toggle("show",logged);if(logged){try{const d=await api("/api/me");document.getElementById("userName").textContent="👤 "+d.user.username}catch{localStorage.removeItem(tokenKey);updateUser()}}}
+async function loadPredictions(){try{const d=await api("/api/predictions");const list=document.getElementById("predictionList");list.innerHTML=d.predictions.length?d.predictions.map(p=>`<article class="prediction"><div class="user">@${esc(p.username)}</div><h3>${esc(p.title)}</h3>${p.horse?`<div class="meta">${esc(p.horse)}</div>`:""}<p>${esc(p.content)}</p><div class="meta">${new Date(p.created_at).toLocaleString("tr-TR")}</div></article>`).join(""):`<article class="prediction"><h3>İlk tahmini sen paylaş!</h3><p>Üye girişi yaptıktan sonra bu alandan kendi görüşünü toplulukla paylaşabilirsin.</p></article>`}catch(e){}}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+document.getElementById("predictionForm").addEventListener("submit",async e=>{e.preventDefault();const msg=document.getElementById("predictionMsg");try{await api("/api/predictions",{method:"POST",body:JSON.stringify({title:pTitle.value,horse:pHorse.value,content:pContent.value})});e.target.reset();document.getElementById("predictionModal").classList.remove("open");loadPredictions()}catch(err){msg.textContent=err.message}})
+document.querySelector('a[href="#tahminler"]').addEventListener("click",e=>{if(!token()){e.preventDefault();openModal("login")}})
+document.getElementById("registerBtn").onclick=()=>openModal("register");document.getElementById("loginBtn").onclick=()=>openModal("login");
+updateUser();loadPredictions();
+</script>
+</body></html>
