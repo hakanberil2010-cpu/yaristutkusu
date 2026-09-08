@@ -1,12 +1,10 @@
 {
   "name": "yaristutkusu",
-  "version": "1.0.0",
-  "description": "At yarışı içerik ve tahmin topluluğu sitesi",
-  "main": "server.js",
-  "scripts": { "start": "node server.js", "dev": "node server.js" },
+  "version": "2.0.0",
+  "private": true,
+  "scripts": { "start": "node server.js" },
   "dependencies": {
     "bcryptjs": "^3.0.2",
-    "better-sqlite3": "^12.4.1",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2"
   }
