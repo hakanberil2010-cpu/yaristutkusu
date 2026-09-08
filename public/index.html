@@ -65,7 +65,18 @@ footer{padding:38px 0;color:#87939a;border-top:1px solid var(--line)}.footer-gri
 <div class="mini"><div class="card-img">👤</div><div><h4>SonDüzlük</h4><p>64 tahmin · 420 takipçi</p></div></div>
 </div></div></aside></div></div></section>
 
-<section id="tahminler" style="padding-top:10px"><div class="container"><div class="section-head"><h2>Son Tahminler</h2><a href="#tahminler">Tüm Tahminler →</a></div><div class="predictions" id="predictionList"></div></div></section>
+<section id="tahminler" style="padding-top:10px">
+<div class="container">
+<div class="section-head">
+<h2>Son Tahminler</h2>
+<div style="display:flex;gap:12px;align-items:center">
+<a href="#tahminler">Tüm Tahminler →</a>
+<button class="btn gold" onclick="openPrediction()">+ Tahmin Paylaş</button>
+</div>
+</div>
+<div class="predictions" id="predictionList"></div>
+</div>
+</section>
 
 <section class="cta"><div class="container cta-box"><div><h2>Her koşu, yeni bir hikâyedir.</h2><p>Sen de yarışsever topluluğuna katıl, düşüncelerini paylaş.</p></div><button class="btn gold" onclick="openModal('register')">Hemen Üye Ol</button></div></section>
 </main>
@@ -81,7 +92,13 @@ footer{padding:38px 0;color:#87939a;border-top:1px solid var(--line)}.footer-gri
 let authMode="login";
 const tokenKey="yt_token";
 function token(){return localStorage.getItem(tokenKey)}
-function openModal(mode){document.getElementById("authModal").classList.add("open");switchAuth(mode)}
+function openModal(mode){document.getElementById("authModal").classList.add("open");switchAuth(mode)}function openPrediction(){
+  if(!token()){
+    openModal("login");
+    return;
+  }
+  document.getElementById("predictionModal").classList.add("open");
+}
 function closeModal(){document.getElementById("authModal").classList.remove("open")}
 function switchAuth(mode){authMode=mode;document.getElementById("tabLogin").classList.toggle("active",mode==="login");document.getElementById("tabRegister").classList.toggle("active",mode==="register");document.getElementById("authSubmit").textContent=mode==="login"?"Giriş Yap":"Kayıt Ol";document.getElementById("registerFields").innerHTML=mode==="register"?'<div class="field"><label>Kullanıcı adı</label><input id="username" required minlength="3"></div>':"";document.getElementById("authMsg").textContent=""}
 async function api(url,opts={}){const headers={"Content-Type":"application/json",...(opts.headers||{})};if(token())headers.Authorization="Bearer "+token();const r=await fetch(url,{...opts,headers});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||"Bir hata oluştu");return d}
