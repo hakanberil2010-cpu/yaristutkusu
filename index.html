@@ -1101,14 +1101,10 @@ async function updateUser(){
   }
 
 }
-
-
 async function loadMembers(){
 
   const list =
-    document.getElementById(
-      "memberList"
-    );
+    document.getElementById("memberList");
 
   try{
 
@@ -1120,20 +1116,70 @@ async function loadMembers(){
         ? data.users
         : [];
 
-
     if(!users.length){
 
       list.innerHTML = `
-
         <div class="empty">
           Henüz kayıtlı üye yok.
         </div>
-
       `;
 
       return;
-
     }
+
+    list.innerHTML =
+      users.map(function(user){
+
+        const username =
+          user.username ||
+          user.name ||
+          "Üye";
+
+        return `
+
+          <div class="mini"
+               onclick="openMemberProfile(${user.id})"
+               style="cursor:pointer;">
+
+            <div class="card-img">
+              👤
+            </div>
+
+            <div>
+
+              <h4>
+                ${esc(username)}
+              </h4>
+
+              <p>
+                YarışTutkusu üyesi
+              </p>
+
+            </div>
+
+          </div>
+
+        `;
+
+      }).join("");
+
+  }catch(error){
+
+    console.error(error);
+
+    list.innerHTML = `
+
+      <div class="empty">
+        Üyeler şu anda yüklenemiyor.
+      </div>
+
+    `;
+
+  }
+
+}
+
+
 
 
     list.innerHTML =
