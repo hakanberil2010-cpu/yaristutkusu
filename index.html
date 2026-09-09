@@ -1189,8 +1189,20 @@ async function loadMembers(){
           <div class="mini" onclick="openMemberProfile(${user.id})" style="cursor:pointer;">
 
             <div class="card-img">
-              🏇
-            </div>
+  ${user.avatar_url
+    ? `<img
+         src="${esc(user.avatar_url)}"
+         alt="Profil Fotoğrafı"
+         style="
+           width:55px;
+           height:55px;
+           border-radius:50%;
+           object-fit:cover;
+         "
+       >`
+    : "🏇"
+  }
+</div>
 
             <div>
 
