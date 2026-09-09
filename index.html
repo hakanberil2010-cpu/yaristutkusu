@@ -2090,6 +2090,73 @@ async function uploadAvatar(input) {
     alert("Fotoğraf işlenemedi.");
   }
 }
+  async function loadComments(predictionId){
+
+  const list = document.getElementById("commentsList");
+
+  if(!list) return;
+
+  try{
+
+    const data = await api(
+      API + "/comments?prediction_id=" + predictionId
+    );
+
+    const comments =
+      Array.isArray(data.comments)
+        ? data.comments
+        : [];
+
+    if(!comments.length){
+
+      list.innerHTML =
+        `<div class="muted">Henüz yorum yok.</div>`;
+
+      return;
+    }
+
+    list.innerHTML = comments.map(function(comment){
+
+      const date = comment.created_at
+        ? new Date(comment.created_at)
+            .toLocaleDateString("tr-TR")
+        : "";
+
+      return `
+        <div style="
+          padding:12px;
+          margin-bottom:10px;
+          border-radius:10px;
+          background:rgba(212,175,55,.08);
+        ">
+
+          <strong>
+            👤 ${esc(comment.username || "Üye")}
+          </strong>
+
+          <p style="margin:8px 0;">
+            ${esc(comment.content || "")}
+          </p>
+
+          <div class="muted" style="font-size:12px;">
+            📅 ${esc(date)}
+          </div>
+
+        </div>
+      `;
+
+    }).join("");
+
+  }catch(error){
+
+    console.error(error);
+
+    list.innerHTML =
+      `<div class="muted">Yorumlar yüklenemedi.</div>`;
+
+  }
+}
+
   async function addComment(predictionId){
 
   const content = prompt("Yorumunuzu yazın:");
@@ -2110,6 +2177,7 @@ async function uploadAvatar(input) {
 
     if(result.success){
       alert("Yorumunuz başarıyla eklendi.");
+      await loadComments(predictionId);
     }else{
       alert(result.message || "Yorum eklenemedi.");
     }
