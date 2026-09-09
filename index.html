@@ -350,7 +350,52 @@
       .hero{padding:55px 0}
     }
   </style>
-</head>
+<style>
+#memberList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+}
+
+#memberList .mini {
+  padding: 18px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: 0.2s ease;
+}
+
+#memberList .mini:hover {
+  transform: translateY(-3px);
+  border-color: rgba(212,175,55,0.55);
+}
+
+#memberList .card-img {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(212,175,55,0.12);
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+#memberList h4 {
+  margin: 0 0 5px;
+  font-size: 16px;
+}
+
+#memberList p {
+  margin: 0;
+  opacity: 0.65;
+  font-size: 13px;
+}
+</style> </head>
 
 <body>
 
