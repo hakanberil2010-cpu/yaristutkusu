@@ -1231,13 +1231,10 @@ async function loadMembers(){
 
 }
 
-
 async function loadPredictions(){
 
   const list =
-    document.getElementById(
-      "predictionList"
-    );
+    document.getElementById("predictionList");
 
   try{
 
@@ -1249,45 +1246,78 @@ async function loadPredictions(){
         ? data.predictions
         : [];
 
-
     if(!predictions.length){
 
       list.innerHTML = `
-
         <div class="empty">
           Henüz paylaşılmış tahmin yok.
         </div>
-
       `;
 
       return;
-
     }
-
 
     list.innerHTML =
       predictions.map(function(p){
 
+        const date = p.created_at
+          ? new Date(p.created_at).toLocaleDateString("tr-TR")
+          : "";
+
         return `
 
-          <article class="prediction">
+          <article class="prediction"
+            style="
+              padding:20px;
+              margin-bottom:16px;
+              border:1px solid rgba(255,255,255,.08);
+              border-radius:16px;
+              background:rgba(255,255,255,.035);
+            ">
 
-            <h3>
-              ${esc(p.title)}
-            </h3>
+            <div style="
+              display:flex;
+              justify-content:space-between;
+              align-items:center;
+              gap:15px;
+              margin-bottom:10px;
+            ">
 
-            <div class="horse">
-              ${esc(p.horse || "")}
+              <h3 style="margin:0;">
+                ${esc(p.title)}
+              </h3>
+
+              <span class="muted">
+                ${esc(date)}
+              </span>
+
             </div>
 
-            <p>
+            ${
+              p.horse
+                ? `
+                  <div class="horse" style="
+                    display:inline-block;
+                    margin-bottom:12px;
+                    padding:6px 12px;
+                    border-radius:20px;
+                    background:rgba(212,175,55,.12);
+                  ">
+                    🏇 ${esc(p.horse)}
+                  </div>
+                `
+                : ""
+            }
+
+            <p style="
+              line-height:1.7;
+              margin:8px 0 16px;
+            ">
               ${esc(p.content)}
             </p>
 
             <div class="muted">
-              👤 ${esc(
-                p.username || "Üye"
-              )}
+              👤 ${esc(p.username || "Üye")}
             </div>
 
           </article>
@@ -1296,23 +1326,19 @@ async function loadPredictions(){
 
       }).join("");
 
-
   }catch(error){
 
     console.error(error);
 
     list.innerHTML = `
-
       <div class="empty">
         Tahminler şu anda yüklenemiyor.
       </div>
-
     `;
 
   }
 
 }
-
 
 async function sharePrediction(event){
 
