@@ -288,7 +288,7 @@ module.exports = async function handler(req, res) {
     // ÜYELERİ GETİR
 if (path === "users" && req.method === "GET") {
   const users = await supabase(
-    "users?select=id,name,created_at&order=created_at.desc"
+    "users?select=id,name,created_at,avatar_url&order=created_at.desc"
   );
 
   return json(res, 200, {
@@ -296,7 +296,8 @@ if (path === "users" && req.method === "GET") {
     users: (users || []).map(user => ({
       id: user.id,
       username: user.name,
-      created_at: user.created_at
+created_at: user.created_at,
+avatar_url: user.avatar_url
     }))
   });
 }// TAHMİNLERİ GETİR
