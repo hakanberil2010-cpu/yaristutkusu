@@ -937,43 +937,6 @@ async function register(event){
 
 
     closeModal("registerModal");
-async function openMemberProfile(userId){
-
-  try{
-
-    const data =
-      await api(API + "/users");
-
-    const users =
-      Array.isArray(data.users)
-        ? data.users
-        : [];
-
-    const user =
-      users.find(function(u){
-        return Number(u.id) === Number(userId);
-      });
-
-    if(!user){
-      alert("Üye bulunamadı.");
-      return;
-    }
-
-    alert(
-      "Üye Profili\n\n" +
-      "Kullanıcı: " +
-      (user.username || user.name || "Üye") +
-      "\n\nYarışTutkusu üyesi"
-    );
-
-  }catch(error){
-
-    console.error(error);
-    alert("Üye profili yüklenemedi.");
-
-  }
-
-}
     updateUser();
 
     loadMembers();
