@@ -497,7 +497,92 @@ if (path === "users/avatar" && req.method === "POST") {
         prediction: created[0]
       });
     }
+// YORUMLARI GETİR
+if (path === "comments" && req.method === "GET") {
 
+  const predictionId = req.query.prediction_id;
+
+  if (!predictionId) {
+    return json(res, 400, {
+      success: false,
+      message: "Tahmin ID gerekli."
+    });
+  }
+
+  const comments = await supabase(
+    `comments?prediction_id=eq.${predictionId}&select=id,content,created_at,user_id,prediction_id,users(name,avatar_url)&order=created_at.asc`
+  );
+
+  return json(res, 200, {
+    success: true,
+    comments: (comments || []).map(comment => ({
+      id: comment.id,
+      prediction_id: comment.prediction_id,
+      user_id: comment.user_id,
+      content: comment.content,
+      created_at: comment.created_at,
+      username: comment.users?.name || "Üye",
+      avatar_url: comment.users?.avatar_url || null
+    }))
+  });
+}
+
+
+// YORUM EKLE
+if (path === "comments" && req.method === "POST") {
+
+  const user = getUser(req);
+
+  if (!user) {
+    return json(res, 401, {
+      success: false,
+      message: "Yorum yazmak için giriş yapmalısınız."
+    });
+  }
+
+  const {
+    prediction_id,
+    content
+  } = req.body || {};
+
+  const cleanContent =
+    String(content || "").trim();
+
+  if (!prediction_id || !cleanContent) {
+    return json(res, 400, {
+      success: false,
+      message: "Yorum boş bırakılamaz."
+    });
+  }
+
+  if (cleanContent.length > 500) {
+    return json(res, 400, {
+      success: false,
+      message: "Yorum en fazla 500 karakter olabilir."
+    });
+  }
+
+  const created = await supabase(
+    "comments",
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Prefer": "return=representation"
+      },
+      body: JSON.stringify({
+        prediction_id: Number(prediction_id),
+        user_id: user.id,
+        content: cleanContent
+      })
+    }
+  );
+
+  return json(res, 201, {
+    success: true,
+    comment: created?.[0] || null
+  });
+}
     return json(res, 404, {
       success: false,
       message: "API endpoint bulunamadı."
