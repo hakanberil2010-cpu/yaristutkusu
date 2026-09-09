@@ -1536,7 +1536,7 @@ function openPredictionDetail(p){
             💬 Yorumlar
           </h3>
 
-          <div id="commentsList">
+          <div id="commentsList" style="max-height:260px; overflow-y:auto; padding-right:4px;">
             <div class="muted">
               Yorumlar yükleniyor...
             </div>
@@ -1545,7 +1545,7 @@ function openPredictionDetail(p){
           <textarea
             id="commentInput"
             placeholder="Bu tahmin hakkında yorumunuzu yazın..."
-            maxlength="250"
+            maxlength="500"
             style="
               width:100%;
               min-height:80px;
