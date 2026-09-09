@@ -1584,7 +1584,30 @@ const memberPredictions =
   });
     const totalPredictions =
   memberPredictions.length;
+let memberLevel = "Başlangıç";
+let levelIcon = "⭐";
+let levelProgress = 25;
 
+if(totalPredictions >= 50){
+  memberLevel = "Efsane";
+  levelIcon = "🏆";
+  levelProgress = 100;
+}
+else if(totalPredictions >= 25){
+  memberLevel = "Altın";
+  levelIcon = "🥇";
+  levelProgress = 75;
+}
+else if(totalPredictions >= 10){
+  memberLevel = "Gümüş";
+  levelIcon = "🥈";
+  levelProgress = 50;
+}
+else if(totalPredictions >= 5){
+  memberLevel = "Bronz";
+  levelIcon = "🥉";
+  levelProgress = 35;
+}
 const latestPrediction =
   memberPredictions.length
     ? memberPredictions[0].title || "Tahmin"
