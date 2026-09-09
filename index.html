@@ -1652,6 +1652,56 @@ const memberPredictions =
               <strong>📅 Üyelik tarihi:</strong>
               ${esc(date)}
             </p>
+            <div style="
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  margin-top:18px;
+">
+
+  <div style="
+    padding:12px;
+    border-radius:10px;
+    background:rgba(212,175,55,.08);
+    text-align:center;
+  ">
+    <strong style="font-size:20px;">
+      ${totalPredictions}
+    </strong>
+    <div class="muted" style="margin-top:5px;">
+      🏆 Toplam Tahmin
+    </div>
+  </div>
+
+  <div style="
+    padding:12px;
+    border-radius:10px;
+    background:rgba(212,175,55,.08);
+    text-align:center;
+  ">
+    <strong style="font-size:20px;">
+      🏇
+    </strong>
+    <div class="muted" style="margin-top:5px;">
+      Tahmin Paylaşımı
+    </div>
+  </div>
+
+  <div style="
+    padding:12px;
+    border-radius:10px;
+    background:rgba(212,175,55,.08);
+    text-align:center;
+  ">
+    <strong style="font-size:15px;">
+      ${esc(latestPrediction)}
+    </strong>
+    <div class="muted" style="margin-top:5px;">
+      Son Tahmin
+    </div>
+  </div>
+
+</div>
 <hr style="margin:18px 0;border:none;border-top:1px solid rgba(255,255,255,.1);">
 
 <h3 style="margin:0 0 12px;">
