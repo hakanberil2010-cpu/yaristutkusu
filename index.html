@@ -1655,9 +1655,21 @@ overflow-y:auto;
               background:rgba(212,175,55,.14);
               font-size:40px;
             "
-          >
-            👤
-          </div>
+          <div class="card-img">
+  ${user.avatar_url
+    ? `<img
+         src="${esc(user.avatar_url)}"
+         alt="Profil Fotoğrafı"
+         style="
+           width:85px;
+           height:85px;
+           border-radius:50%;
+           object-fit:cover;
+         "
+       >`
+    : "👤"
+  }
+</div>
 
           <h2 style="margin-bottom:8px;">
             ${esc(username)}
