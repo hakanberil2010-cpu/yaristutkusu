@@ -1582,6 +1582,13 @@ const memberPredictions =
     return Number(p.user_id) === Number(userId)
   || (p.username && p.username === (user.username || user.name));
   });
+    const totalPredictions =
+  memberPredictions.length;
+
+const latestPrediction =
+  memberPredictions.length
+    ? memberPredictions[0].title || "Tahmin"
+    : "Henüz yok";
     const oldModal =
       document.getElementById("memberProfileModal");
 
