@@ -1906,6 +1906,127 @@ async function uploadAvatar(input) {
     return;
   }
 
+  const status = document.getElementById("avatarStatus");
+
+  if (status) {
+    status.textContent = "Fotoğraf hazırlanıyor...";
+  }
+
+  try {
+
+    const reader = new FileReader();
+
+    reader.onload = function () {
+
+      const img = new Image();
+
+      img.onload = async function () {
+
+        const maxSize = 1000;
+
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > maxSize) {
+            height = height * maxSize / width;
+            width = maxSize;
+          }
+        } else {
+          if (height > maxSize) {
+            width = width * maxSize / height;
+            height = maxSize;
+          }
+        }
+
+        const canvas = document.createElement("canvas");
+
+        canvas.width = Math.round(width);
+        canvas.height = Math.round(height);
+
+        const ctx = canvas.getContext("2d");
+
+        ctx.drawImage(
+          img,
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+        const compressedImage =
+          canvas.toDataURL("image/jpeg", 0.75);
+
+        if (status) {
+          status.textContent = "Fotoğraf yükleniyor...";
+        }
+
+        try {
+
+          const data = await api(API + "/users/avatar", {
+            method: "POST",
+            body: JSON.stringify({
+              avatar: compressedImage
+            })
+          });
+
+          if (!data.success) {
+            throw new Error(
+              data.message || "Fotoğraf yüklenemedi."
+            );
+          }
+
+          if (status) {
+            status.textContent =
+              "✅ Profil fotoğrafı güncellendi.";
+          }
+
+          alert(
+            "Profil fotoğrafınız başarıyla güncellendi."
+          );
+
+          if (typeof loadMembers === "function") {
+            loadMembers();
+          }
+
+        } catch (error) {
+
+          console.error(error);
+
+          if (status) {
+            status.textContent = "";
+          }
+
+          alert(
+            "Fotoğraf yüklenemedi: " +
+            error.message
+          );
+        }
+
+      };
+
+      img.src = reader.result;
+    };
+
+    reader.readAsDataURL(file);
+
+  } catch (error) {
+
+    console.error(error);
+
+    if (status) {
+      status.textContent = "";
+    }
+
+    alert("Fotoğraf işlenemedi.");
+  }
+}
+
+  if (!file.type.startsWith("image/")) {
+    alert("Lütfen bir fotoğraf seçin.");
+    return;
+  }
+
   if (file.size > 5 * 1024 * 1024) {
     alert("Fotoğraf en fazla 5 MB olabilir.");
     return;
