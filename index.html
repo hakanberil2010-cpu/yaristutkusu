@@ -1523,7 +1523,52 @@ function openPredictionDetail(p){
           </div>
 
         </div>
+        <div
+          style="
+            margin-top:22px;
+            padding:14px;
+            border-radius:12px;
+            background:rgba(255,255,255,.04);
+          "
+        >
 
+          <h3 style="margin:0 0 12px;">
+            💬 Yorumlar
+          </h3>
+
+          <div id="commentsList">
+            <div class="muted">
+              Yorumlar yükleniyor...
+            </div>
+          </div>
+
+          <textarea
+            id="commentInput"
+            placeholder="Bu tahmin hakkında yorumunuzu yazın..."
+            maxlength="500"
+            style="
+              width:100%;
+              min-height:80px;
+              margin-top:14px;
+              padding:10px;
+              border-radius:8px;
+              border:1px solid rgba(255,255,255,.12);
+              background:#0b1726;
+              color:white;
+              resize:vertical;
+              box-sizing:border-box;
+            "
+          ></textarea>
+
+          <button
+            class="btn btn-gold"
+            style="margin-top:10px;"
+            onclick="addComment(${p.id})"
+          >
+            💬 Yorum Yap
+          </button>
+
+        </div>
         <div
           style="
             margin-top:22px;
@@ -2044,6 +2089,38 @@ async function uploadAvatar(input) {
 
     alert("Fotoğraf işlenemedi.");
   }
+}
+  async function addComment(predictionId){
+
+  const content = prompt("Yorumunuzu yazın:");
+
+  if(!content || !content.trim()){
+    return;
+  }
+
+  try{
+
+    const result = await api(API + "/comments", {
+      method: "POST",
+      body: JSON.stringify({
+        prediction_id: predictionId,
+        content: content.trim()
+      })
+    });
+
+    if(result.success){
+      alert("Yorumunuz başarıyla eklendi.");
+    }else{
+      alert(result.message || "Yorum eklenemedi.");
+    }
+
+  }catch(error){
+
+    console.error(error);
+    alert(error.message || "Yorum eklenemedi.");
+
+  }
+
 }
 </script>
 
