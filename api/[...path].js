@@ -301,6 +301,124 @@ avatar_url: user.avatar_url
     }))
   });
 }// TAHMİNLERİ GETİR
+    // PROFİL FOTOĞRAFI YÜKLE
+if (path === "users/avatar" && req.method === "POST") {
+
+  const user = getUser(req);
+
+  if (!user) {
+    return json(res, 401, {
+      success: false,
+      message: "Giriş yapmalısınız."
+    });
+  }
+
+  try {
+
+    const { avatar } = req.body || {};
+
+    if (!avatar || !avatar.includes("base64,")) {
+      return json(res, 400, {
+        success: false,
+        message: "Geçerli bir fotoğraf gönderilmedi."
+      });
+    }
+
+    const parts = avatar.split(",");
+
+    const meta = parts[0];
+    const base64Data = parts[1];
+
+    const mimeMatch =
+      meta.match(/data:(.*?);base64/);
+
+    const mimeType =
+      mimeMatch
+        ? mimeMatch[1]
+        : "image/jpeg";
+
+    const extension =
+      mimeType === "image/png"
+        ? "png"
+        : mimeType === "image/webp"
+          ? "webp"
+          : "jpg";
+
+    const filePath =
+      `${user.id}.${extension}`;
+
+    const fileBuffer =
+      Buffer.from(base64Data, "base64");
+
+    const uploadUrl =
+      `${process.env.SUPABASE_URL}/storage/v1/object/avatars/${filePath}`;
+
+    const uploadResponse =
+      await fetch(uploadUrl, {
+        method: "POST",
+        headers: {
+          "Authorization":
+            `Bearer ${process.env.SUPABASE_SECRET_KEY}`,
+          "apikey":
+            process.env.SUPABASE_SECRET_KEY,
+          "Content-Type":
+            mimeType,
+          "x-upsert":
+            "true"
+        },
+        body: fileBuffer
+      });
+
+    if (!uploadResponse.ok) {
+
+      const errorText =
+        await uploadResponse.text();
+
+      console.error(
+        "Avatar upload error:",
+        errorText
+      );
+
+      return json(res, 500, {
+        success: false,
+        message: "Fotoğraf yüklenemedi."
+      });
+
+    }
+
+    const avatarUrl =
+      `${process.env.SUPABASE_URL}/storage/v1/object/public/avatars/${filePath}`;
+
+    await supabase(
+      `users?id=eq.${user.id}`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type":
+            "application/json"
+        },
+        body: JSON.stringify({
+          avatar_url: avatarUrl
+        })
+      }
+    );
+
+    return json(res, 200, {
+      success: true,
+      avatar_url: avatarUrl
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    return json(res, 500, {
+      success: false,
+      message: "Profil fotoğrafı kaydedilemedi."
+    });
+
+  }
+}
     if (path === "predictions" && req.method === "GET") {
       const rows = await supabase(
         "predictions?select=id,user_id,title,horse,content,created_at,users(name)&order=created_at.desc"
