@@ -127,6 +127,39 @@ function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",
 document.getElementById("predictionForm").addEventListener("submit",async e=>{e.preventDefault();const msg=document.getElementById("predictionMsg");try{await api("/api/predictions",{method:"POST",body:JSON.stringify({title:pTitle.value,horse:pHorse.value,content:pContent.value})});e.target.reset();document.getElementById("predictionModal").classList.remove("open");loadPredictions()}catch(err){msg.textContent=err.message}})
 document.querySelector('a[href="#tahminler"]').addEventListener("click",e=>{if(!token()){e.preventDefault();openModal("login")}})
 document.getElementById("registerBtn").onclick=()=>openModal("register");document.getElementById("loginBtn").onclick=()=>openModal("login");
-updateUser();loadPredictions();
+async function loadMembers(){
+  try{
+    const data = await api("/api/users");
+    const list = document.getElementById("memberList");
+
+    if(!data.users || !data.users.length){
+      list.innerHTML = `
+        <div class="mini">
+          <div class="card-img">👤</div>
+          <div>
+            <h4>Henüz üye yok</h4>
+            <p>İlk üye sen ol!</p>
+          </div>
+        </div>`;
+      return;
+    }
+
+    list.innerHTML = data.users.map(user => `
+      <div class="mini">
+        <div class="card-img">👤</div>
+        <div>
+          <h4>${esc(user.username)}</h4>
+          <p>YarışTutkusu üyesi</p>
+        </div>
+      </div>
+    `).join("");
+  }catch(e){
+    console.error(e);
+  }
+}
+
+updateUser();
+loadPredictions();
+loadMembers();
 </script>
 </body></html>
