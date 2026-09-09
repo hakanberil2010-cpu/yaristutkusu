@@ -1444,32 +1444,136 @@ async function openMemberProfile(userId){
 
   try{
 
-    const data = await api(API + "/users");
+    const data =
+      await api(API + "/users");
 
     const users =
       Array.isArray(data.users)
         ? data.users
         : [];
 
-    const user = users.find(function(u){
-      return Number(u.id) === Number(userId);
-    });
+    const user =
+      users.find(function(u){
+        return Number(u.id) === Number(userId);
+      });
 
     if(!user){
+
       alert("Üye bulunamadı.");
       return;
+
     }
 
-    alert(
-      "Üye Profili\n\n" +
-      "Kullanıcı: " +
-      (user.username || user.name || "Üye") +
-      "\n\nYarışTutkusu üyesi"
-    );
+    const username =
+      user.username ||
+      user.name ||
+      "Üye";
+
+    const date =
+      user.created_at
+        ? new Date(user.created_at).toLocaleDateString("tr-TR")
+        : "Belirtilmemiş";
+
+    const oldModal =
+      document.getElementById("memberProfileModal");
+
+    if(oldModal){
+      oldModal.remove();
+    }
+
+    document.body.insertAdjacentHTML("beforeend", `
+
+      <div
+        class="modal show"
+        id="memberProfileModal"
+        style="
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        "
+      >
+
+        <div
+          class="modal-box"
+          style="
+            max-width:460px;
+            width:90%;
+            text-align:center;
+          "
+        >
+
+          <div
+            style="
+              width:80px;
+              height:80px;
+              margin:0 auto 18px;
+              border-radius:50%;
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              background:rgba(212,175,55,.14);
+              font-size:40px;
+            "
+          >
+            👤
+          </div>
+
+          <h2 style="margin-bottom:8px;">
+            ${esc(username)}
+          </h2>
+
+          <p class="muted" style="margin-bottom:22px;">
+            YarışTutkusu üyesi
+          </p>
+
+          <div
+            style="
+              padding:15px;
+              border-radius:12px;
+              background:rgba(255,255,255,.04);
+              text-align:left;
+            "
+          >
+
+            <p style="margin:0 0 10px;">
+              <strong>👤 Kullanıcı:</strong>
+              ${esc(username)}
+            </p>
+
+            <p style="margin:0;">
+              <strong>📅 Üyelik tarihi:</strong>
+              ${esc(date)}
+            </p>
+
+          </div>
+
+          <div
+            style="
+              margin-top:22px;
+              display:flex;
+              justify-content:center;
+            "
+          >
+
+            <button
+              class="btn btn-gold"
+              onclick="closeModal('memberProfileModal')"
+            >
+              Kapat
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `);
 
   }catch(error){
 
     console.error(error);
+
     alert("Üye profili yüklenemedi.");
 
   }
