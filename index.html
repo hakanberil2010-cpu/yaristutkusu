@@ -1673,6 +1673,33 @@ overflow-y:auto;
   font-weight:600;
 ">
   🏆 YarışTutkusu Üyesi
+  <div style="margin-bottom:18px;">
+
+  <input
+    type="file"
+    id="avatarInput"
+    accept="image/*"
+    style="display:none;"
+    onchange="uploadAvatar(this)"
+  >
+
+  <button
+    class="btn btn-gold"
+    onclick="document.getElementById('avatarInput').click()"
+  >
+    📷 Profil Fotoğrafı Değiştir
+  </button>
+
+  <div
+    id="avatarStatus"
+    style="
+      margin-top:8px;
+      font-size:12px;
+      color:#aaa;
+    "
+  ></div>
+
+</div>
   <div style="
   margin:0 auto 20px;
   max-width:360px;
@@ -1866,7 +1893,90 @@ ${
 updateUser();
 loadMembers();
 loadPredictions();
+async function uploadAvatar(input) {
 
+  const file = input.files && input.files[0];
+
+  if (!file) {
+    return;
+  }
+
+  if (!file.type.startsWith("image/")) {
+    alert("Lütfen bir fotoğraf seçin.");
+    return;
+  }
+
+  if (file.size > 5 * 1024 * 1024) {
+    alert("Fotoğraf en fazla 5 MB olabilir.");
+    return;
+  }
+
+  const status = document.getElementById("avatarStatus");
+
+  if (status) {
+    status.textContent = "Fotoğraf yükleniyor...";
+  }
+
+  try {
+
+    const reader = new FileReader();
+
+    reader.onload = async function () {
+
+      try {
+
+        const data = await api(API + "/users/avatar", {
+          method: "POST",
+          body: JSON.stringify({
+            avatar: reader.result
+          })
+        });
+
+        if (!data.success) {
+          throw new Error(
+            data.message || "Fotoğraf yüklenemedi."
+          );
+        }
+
+        if (status) {
+          status.textContent = "✅ Profil fotoğrafı güncellendi.";
+        }
+
+        alert("Profil fotoğrafınız başarıyla güncellendi.");
+
+        if (typeof loadMembers === "function") {
+          loadMembers();
+        }
+
+      } catch (error) {
+
+        console.error(error);
+
+        if (status) {
+          status.textContent = "";
+        }
+
+        alert(
+          "Fotoğraf yüklenemedi: " +
+          error.message
+        );
+      }
+
+    };
+
+    reader.readAsDataURL(file);
+
+  } catch (error) {
+
+    console.error(error);
+
+    if (status) {
+      status.textContent = "";
+    }
+
+    alert("Fotoğraf işlenemedi.");
+  }
+}
 </script>
 
 </body>
