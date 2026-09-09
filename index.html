@@ -1689,7 +1689,9 @@ overflow-y:auto;
     font-size:13px;
   ">
     <span>⭐ Üye Seviyesi</span>
-    <strong style="margin-left:8px;">Başlangıç</strong>
+    <strong style="margin-left:8px;">
+  ${levelIcon} ${esc(memberLevel)}
+</strong>
   </div>
 
   <div style="
@@ -1699,7 +1701,7 @@ overflow-y:auto;
     overflow:hidden;
   ">
     <div style="
-      width:25%;
+      width:${levelProgress}%;
       height:100%;
       border-radius:10px;
       background:#d4af37;
