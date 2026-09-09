@@ -1439,7 +1439,103 @@ document
     );
 
   });
+function openPredictionDetail(p){
 
+  const date =
+    p.created_at
+      ? new Date(p.created_at).toLocaleDateString("tr-TR")
+      : "";
+
+  const oldModal =
+    document.getElementById("predictionDetailModal");
+
+  if(oldModal){
+    oldModal.remove();
+  }
+
+  document.body.insertAdjacentHTML("beforeend", `
+
+    <div
+      class="modal show"
+      id="predictionDetailModal"
+      style="
+        display:flex;
+        align-items:center;
+        justify-content:center;
+      "
+    >
+
+      <div
+        class="modal-box"
+        style="
+          max-width:520px;
+          width:90%;
+        "
+      >
+
+        <h2 style="margin-bottom:18px;">
+          🏇 Tahmin Detayı
+        </h2>
+
+        <div
+          style="
+            padding:16px;
+            border-radius:12px;
+            background:rgba(255,255,255,.04);
+          "
+        >
+
+          <h3 style="margin:0 0 12px;">
+            ${esc(p.title || "Tahmin")}
+          </h3>
+
+          ${
+            p.horse
+              ? `<p class="muted">
+                  🏇 ${esc(p.horse)}
+                 </p>`
+              : ""
+          }
+
+          <p style="margin-top:14px;">
+            ${esc(p.content || "")}
+          </p>
+
+          <div
+            class="muted"
+            style="margin-top:14px;"
+          >
+            👤 ${esc(p.username || "Üye")}
+            <br>
+            📅 ${esc(date)}
+          </div>
+
+        </div>
+
+        <div
+          style="
+            margin-top:22px;
+            display:flex;
+            justify-content:center;
+          "
+        >
+
+          <button
+            class="btn btn-gold"
+            onclick="this.closest('.modal').remove()"
+          >
+            Kapat
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  `);
+
+}
 async function openMemberProfile(userId){
 
   try{
@@ -1567,8 +1663,10 @@ ${
     ? memberPredictions.map(function(p){
 
         return `
-          <div style="
-            padding:12px;
+          <div
+  onclick='openPredictionDetail(${JSON.stringify(p).replace(/'/g, "&#39;")})'
+  style="
+            padding:12px;cursor:pointer;
             margin-bottom:10px;
             border-radius:10px;
             background:rgba(212,175,55,.08);
