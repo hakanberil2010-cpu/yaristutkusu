@@ -1588,7 +1588,11 @@ ${
 
             <div style="margin-top:7px;">
               ${esc(p.content || "")}
-            </div>
+          <div class="muted" style="margin-top:8px;">
+  📅 ${p.created_at
+    ? new Date(p.created_at).toLocaleDateString("tr-TR")
+    : ""}
+</div>  </div>
 
           </div>
         `;
