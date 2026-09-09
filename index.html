@@ -1473,7 +1473,19 @@ async function openMemberProfile(userId){
       user.created_at
         ? new Date(user.created_at).toLocaleDateString("tr-TR")
         : "Belirtilmemiş";
+const predictionData =
+  await api(API + "/predictions");
 
+const allPredictions =
+  Array.isArray(predictionData.predictions)
+    ? predictionData.predictions
+    : [];
+
+const memberPredictions =
+  allPredictions.filter(function(p){
+    return Number(p.user_id) === Number(userId)
+  || (p.username && p.username === (user.username || user.name));
+  });
     const oldModal =
       document.getElementById("memberProfileModal");
 
@@ -1544,7 +1556,46 @@ async function openMemberProfile(userId){
               <strong>📅 Üyelik tarihi:</strong>
               ${esc(date)}
             </p>
+<hr style="margin:18px 0;border:none;border-top:1px solid rgba(255,255,255,.1);">
 
+<h3 style="margin:0 0 12px;">
+  🏇 Bu üyenin tahminleri
+</h3>
+
+${
+  memberPredictions.length
+    ? memberPredictions.map(function(p){
+
+        return `
+          <div style="
+            padding:12px;
+            margin-bottom:10px;
+            border-radius:10px;
+            background:rgba(212,175,55,.08);
+          ">
+
+            <strong>
+              ${esc(p.title || "Tahmin")}
+            </strong>
+
+            ${
+              p.horse
+                ? `<div class="muted" style="margin-top:5px;">
+                    🏇 ${esc(p.horse)}
+                   </div>`
+                : ""
+            }
+
+            <div style="margin-top:7px;">
+              ${esc(p.content || "")}
+            </div>
+
+          </div>
+        `;
+
+      }).join("")
+    : `<p class="muted">Bu üye henüz tahmin paylaşmamış.</p>`
+}
           </div>
 
           <div
