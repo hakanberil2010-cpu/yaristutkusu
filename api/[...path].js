@@ -285,7 +285,21 @@ module.exports = async function handler(req, res) {
       });
     }
 
-    // TAHMİNLERİ GETİR
+    // ÜYELERİ GETİR
+if (path === "users" && req.method === "GET") {
+  const users = await supabase(
+    "users?select=id,name,created_at&order=created_at.desc"
+  );
+
+  return json(res, 200, {
+    success: true,
+    users: (users || []).map(user => ({
+      id: user.id,
+      username: user.name,
+      created_at: user.created_at
+    }))
+  });
+}// TAHMİNLERİ GETİR
     if (path === "predictions" && req.method === "GET") {
       const rows = await supabase(
         "predictions?select=id,user_id,title,horse,content,created_at,users(name)&order=created_at.desc"
