@@ -1,5 +1,5 @@
 // Authenticated data (Supabase, API and cross-origin) is NEVER cached.
-const CACHE = 'yaristutkusu-shell-v16';
+const CACHE = 'yaristutkusu-shell-v17';
 const SHELL = ['/', '/index.html', '/styles.css', '/app.js', '/config.js', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png'];
 const SAFE = new Set(SHELL);
 self.addEventListener('install', (event) => {

@@ -1,6 +1,18 @@
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.117.2?bundle';
 import { SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY } from './config.js';
 
+const CANONICAL_APP_ORIGIN = 'https://yaristutkusu.teryndis.com';
+const LEGACY_APP_ORIGINS = new Set([
+  'https://yaristutkusu-ozel-mobil.vercel.app',
+  'https://yaristutkusu.vercel.app',
+  'https://yaristutkusu-yaristutkusu.vercel.app',
+  'https://yaristutkusu-git-main-yaristutkusu.vercel.app',
+]);
+if (LEGACY_APP_ORIGINS.has(location.origin)) {
+  location.replace(CANONICAL_APP_ORIGIN + location.pathname + location.search + location.hash);
+  await new Promise(() => {});
+}
+
 const supabase = createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true },
 });
@@ -1784,7 +1796,7 @@ async function sendLoginLink(event) {
     const email = el('login-email').value.trim().toLowerCase();
     const { error } = await supabase.auth.signInWithOtp({
       email,
-      options: { shouldCreateUser: false, emailRedirectTo: `${location.origin}/` },
+      options: { shouldCreateUser: false, emailRedirectTo: `${CANONICAL_APP_ORIGIN}/` },
     });
     if (error) throw error;
     cooldown = true;
@@ -2249,6 +2261,8 @@ el('install-button').addEventListener('click', async () => {
   }
 });
 if ('serviceWorker' in navigator && location.protocol === 'https:') {
-  navigator.serviceWorker.register('/service-worker.js').catch(() => {});
+  navigator.serviceWorker.register('/service-worker.js', { updateViaCache: 'none' })
+    .then((registration) => registration.update())
+    .catch(() => {});
 }
 void syncSession();
